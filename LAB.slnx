@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Project Path="LAB/PRN232.LAB.API.csproj" />
+  <Project Path="PRN232.LAB.Repositories/PRN232.LAB.Repositories.csproj" />
+  <Project Path="PRN232.LAB.Services/PRN232.LAB.Services.csproj" />
+</Solution>

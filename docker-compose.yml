@@ -1,27 +1,30 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  # Cấu hình cho Database
   lms-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Aa@123456 # Mật khẩu mạnh này phải khớp với mật khẩu API gọi vào
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Aa@123456"
     ports:
       - "1433:1433"
     volumes:
       - sqldata:/var/opt/mssql
 
-  # Cấu hình cho API
   lms-api:
     build:
       context: .
-      dockerfile: LAB1/Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080" # Cổng để bạn truy cập Swagger từ máy thật
+      - "8080:8080"
     environment:
-      # Ghi đè ConnectionString để gọi vào lms-db thay vì localhost
-      - ConnectionStrings__DefaultConnection=Server=lms-db,1433;Database=PRN232_LAB1_LMS;User Id=sa;Password=Aa@123456;TrustServerCertificate=True
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__DefaultConnection: "Server=lms-db,1433;Database=PRN232_LAB_LMS;User Id=sa;Password=Aa@123456;TrustServerCertificate=True"
+      Jwt__Issuer: "PRN232.LAB"
+      Jwt__Audience: "PRN232.LAB"
+      Jwt__Secret: "DO_NOT_USE_THIS_IN_PROD_CHANGE_ME_TO_A_LONG_RANDOM_SECRET"
+      Jwt__AccessTokenMinutes: "60"
+      Jwt__RefreshTokenDays: "7"
     depends_on:
       - lms-db
 
